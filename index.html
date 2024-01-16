@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js" integrity="sha512-7rhBJh1om/W5Ztx7WiYOR9h2wlSaTmPyQMoHFtbT/FVNIA12y6S6I8HY9mrBS1uJ3dSU/R3qaSAXsGYuRjMDxg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(document).ready(() => {
+            var connection = new signalR.HubConnectionBuilder().withUrl("https://localhost:7017/messageHub").build();
+            connection.start();
+            connection.on("receiveMessage", message => {
+                alert(message);
+            });
+
+            $("button").click(() => {
+                let message = $("#txtMessage").val();
+                $.post(`https://localhost:7017/Message?Message=${message}`);
+            });
+        })
+    </script>
+</head>
+<body>
+    <input type="text" id="txtMessage" placeholder="Mesaj" />
+    <button>Gönder</button>
+</body>
+</html>
